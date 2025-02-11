@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Phishing Detection MVP - Enter text to analyze its phishing risk.">
+    <title>Phishing Detection Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Phishing Detection Tool</h1>
+            <p>Paste a string or text to analyze its phishing risk.</p>
+        </header>
+        
+        <main>
+            <section>
+                <h2>Enter Text Below</h2>
+                <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+                <button onclick="analyzeText()">Analyze</button>
+                <h3>Risk Score:</h3>
+                <p id="riskScore">-</p>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Phishing Detection MVP. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        async function analyzeText() {
+            const text = document.getElementById("inputText").value;
+
+            const response = await fetch("http://127.0.0.1:5000/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ text })
+            });
+
+            const result = await response.json();
+            document.getElementById("riskScore").innerText = result.risk_score + "% Risk";
+        }
+    </script>
+</body>
+</html>
