@@ -1,7 +1,7 @@
 async function analyzeText() {
     const text = document.getElementById("inputText").value;
 
-    const response = await fetch("https://briantrommater.com/analyze", {
+    const response = await fetch("https://briantrommater.net/analyze", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -16,4 +16,5 @@ async function analyzeText() {
 // Ensure the page loads before running any scripts
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Phishing Detection Tool Loaded.");
+
 });
