@@ -1,54 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Phishing Detection MVP - Enter text to analyze its phishing risk.">
-    <title>Phishing Detection Tool</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phishing Detector — Brian Trommater</title>
+  <meta name="description" content="Paste a message and get an instant phishing risk score with reasons." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Phishing Detection Tool</h1>
-            <p>Paste a string or text to analyze its phishing risk.</p>
-        </header>
-        
-        <main>
-            <section>
-                <h2>Enter Text Below</h2>
-                <textarea id="inputText" placeholder="Paste your text here..."></textarea>
-                <button onclick="analyzeText()">Analyze</button>
-                <h3>Risk Score:</h3>
-                <p id="riskScore">-</p>
-            </section>
-        </main>
-        
-        <footer>
-            <p>&copy; 2025 Phishing Detection MVP. All rights reserved.</p>
-        </footer>
-    </div>
-    
-    <script>
-        async function analyzeText() {
-            const text = document.getElementById("inputText").value;
+  <header class="top">
+    <a class="brand" href="/">briantrommater.net</a>
+    <nav class="nav">
+      <a href="#tool">Tool</a>
+      <a href="#how">How it works</a>
+    </nav>
+  </header>
 
-            const response = await fetch("https://briantrommater.net/analyze", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ text })
-            });
+  <main class="wrap" id="tool">
+    <section class="hero">
+      <div class="hero-left">
+        <p class="kicker">SECURITY • SMS • EMAIL</p>
+        <h1>Phishing Detector</h1>
+        <p class="sub">
+          Paste a suspicious message. Get a risk score and an explainable breakdown —
+          all locally in your browser.
+        </p>
+      </div>
 
-            const result = await response.json();
-            document.getElementById("riskScore").innerText = result.risk_score + "% Risk";
-        }
-    </script>
+      <div class="hero-right">
+        <div class="stat">
+          <span class="stat-label">Mode</span>
+          <span class="stat-value" id="modeLabel">Local analysis</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Privacy</span>
+          <span class="stat-value">No uploads</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <label class="label" for="inputText">Paste text or a full message</label>
+      <textarea id="inputText" placeholder="Example: Your bank account is locked. Verify now: http://..." spellcheck="false"></textarea>
+
+      <div class="row">
+        <button id="analyzeBtn" class="btn primary">Analyze</button>
+        <button id="clearBtn" class="btn">Clear</button>
+        <span class="hint" id="hint">Tip: include the full message + any links.</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Risk score</h2>
+          <span class="pill" id="verdictPill">—</span>
+        </div>
+
+        <div class="score">
+          <div class="ring" aria-hidden="true">
+            <div class="ring-inner">
+              <div class="score-num" id="scoreNum">0</div>
+              <div class="score-sub">/ 100</div>
+            </div>
+          </div>
+
+          <div class="score-meta">
+            <div class="score-line">
+              <span class="muted">Confidence</span>
+              <span id="confidence">—</span>
+            </div>
+            <div class="score-line">
+              <span class="muted">Signals hit</span>
+              <span id="signalsHit">0</span>
+            </div>
+            <div class="score-line">
+              <span class="muted">Links found</span>
+              <span id="linksFound">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Why</h2>
+          <span class="muted small">Top signals detected</span>
+        </div>
+        <ul class="list" id="reasons"></ul>
+      </div>
+    </section>
+
+    <section class="panel" id="how">
+      <div class="panel-head">
+        <h2>How it works</h2>
+        <span class="muted small">Browser-only scoring</span>
+      </div>
+      <p class="muted">
+        This detector looks for common phishing patterns: urgency, credential requests,
+        suspicious links, impersonation language, payment pressure, and more. It’s a
+        heuristic score (not ML), meant to be fast and explainable.
+      </p>
+      <p class="muted small">
+        ⚠️ Always verify via official apps/sites. Never click links in unexpected messages.
+      </p>
+    </section>
+
+    <footer class="foot">
+      <span>© <span id="year"></span> Brian Trommater</span>
+      <span class="muted small">Built for GitHub Pages</span>
+    </footer>
+  </main>
+
+  <script src="scripts.js"></script>
 </body>
-
 </html>
-
-
-
-
